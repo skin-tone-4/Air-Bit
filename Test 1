@@ -1,0 +1,100 @@
+#include <DHT_U.h>
+#include <DHT.h>
+#define DHTPIN 9
+#include <SoftwareSerial.h>
+#include <SDS011.h>
+#define PM_TX 2
+#define PM_RX 3
+#include <SD.h>
+#define SD_CS_PIN 10
+#define LED_RED   A1
+#define LED_GREEN A0
+DHT dht22(DHTPIN, DHT22);
+
+File file;
+SDS011 sds;
+
+void setup() {
+
+    // Activate CS-Pin control
+    pinMode(SD_CS_PIN, OUTPUT);
+
+    // Startup SD-card reader
+    SD.begin(SD_CS_PIN);
+
+    // Define filename
+    char filename[] = "testfile.txt";
+
+    if (SD.exists(filename)) {
+        // Open existing file for writing and append
+        file = SD.open(filename, O_WRITE | O_APPEND);
+        file.println("--------------------");
+        file.println("Filen ble åpnet på nytt.");
+    }
+    else {
+        file = SD.open(filename, O_CREAT | O_WRITE);
+        file.println("Dette er den første linjen i filen.");
+    }
+    file.flush(); // Force saving data to SD-card
+
+    Serial.begin(9600);
+    sds.begin(PM_TX, PM_RX);
+    Serial.begin(9600);
+    Serial.print("temp ")
+    Serial.print("humidity ")
+    Serial.print("pm 10 ")
+    Serial.print("pm 2.5")
+    Serial.println("")
+    pinMode(LED_RED, OUTPUT); // Enable red LED control
+    pinMode(LED_GREEN, OUTPUT); // Enable green LED control
+    
+}
+
+void loop() {
+    digitalWrite(LED_RED, HIGH);
+    float temperature = 0;
+    float humidity = 0;
+    float pm25;
+    float pm10;
+    int error;
+
+    temperature = dht22.readTemperature();
+    humidity = dht22.readHumidity();
+
+    do {
+        error = sds.read(&pm25, &pm10);
+    } while (error != 0);
+    
+    delay(1000);
+    digitalWrite(LED_RED, LOW);
+    digitalWrite(LED_GREEN, HIGH);
+    Serial.print(temperature);
+    Serial.print("°C");
+    Serial.print("\t");
+    Serial.print(humidity);
+    Serial.print("%");
+    Serial.print("\t");
+    Serial.print(pm10);
+    Serial.print("\t");
+    Serial.print(pm25);
+    Serial.print(error);
+    Serial.print(millis());
+    Serial.println("");
+    
+    file.flush();
+    file.print(temperature);
+    file.print("");
+    file.print("\t");
+    file.print(humidity);
+    file.print("%");
+    file.print("\t");
+    file.print(pm10);
+    file.print("\t");
+    file.print(pm25);
+    file.print(error);
+    file.print(millis());
+    file.println("");
+
+    delay(1000);
+    digitalWrite(LED_GREEN, LOW);
+}
