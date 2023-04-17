@@ -40,11 +40,11 @@ void setup() {
     Serial.begin(9600);
     sds.begin(PM_TX, PM_RX);
     Serial.begin(9600);
-    Serial.print("temp ")
-    Serial.print("humidity ")
-    Serial.print("pm 10 ")
-    Serial.print("pm 2.5")
-    Serial.println("")
+    Serial.print("temp ");
+    Serial.print("humidity ");
+    Serial.print("pm 10 ");
+    Serial.print("pm 2.5");
+    Serial.println("");
     pinMode(LED_RED, OUTPUT); // Enable red LED control
     pinMode(LED_GREEN, OUTPUT); // Enable green LED control
     
