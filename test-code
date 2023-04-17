@@ -93,6 +93,6 @@ void loop() {
     file.print(error);
     file.println("");
 
-    delay(1000);
     digitalWrite(LED_GREEN, LOW);
+    delay(1000);
 }
