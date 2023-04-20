@@ -23,7 +23,7 @@ void setup() {
     SD.begin(SD_CS_PIN);
 
     // Define filename
-    char filename[] = "testfile.txt";
+    char filename[] = "TVERR.txt";
 
     if (SD.exists(filename)) {
         // Open existing file for writing and append
@@ -78,6 +78,8 @@ void loop() {
     Serial.print("\t");
     Serial.print(pm25);
     Serial.print(error);
+    Serial.print(" ");
+    Serial.print(millis());
     Serial.println("");
     
     file.flush();
@@ -91,8 +93,10 @@ void loop() {
     file.print("\t");
     file.print(pm25);
     file.print(error);
+    file.print(" ");
+    file.print(millis());
     file.println("");
 
-    digitalWrite(LED_GREEN, LOW);
     delay(1000);
+    digitalWrite(LED_GREEN, LOW);
 }
