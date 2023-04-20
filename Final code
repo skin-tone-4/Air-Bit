@@ -78,7 +78,7 @@ void loop() {
     Serial.print("\t");
     Serial.print(pm25);
     Serial.print(error);
-    Serial.print(" ");
+    Serial.print("\t");
     Serial.print(millis());
     Serial.println("");
     
@@ -93,7 +93,7 @@ void loop() {
     file.print("\t");
     file.print(pm25);
     file.print(error);
-    file.print(" ");
+    file.print("\t");
     file.print(millis());
     file.println("");
 
